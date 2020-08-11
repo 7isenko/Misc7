@@ -11,7 +11,6 @@ public class Misc7 extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         // this.getCommand("template_command").setExecutor(new SpigotCommandExecutor());
-        getServer().getPluginManager().registerEvents(new DoorClickListener(), plugin);
         getServer().getPluginManager().registerEvents(new LilyFallListener(), plugin);
         getServer().getPluginManager().registerEvents(new SignChestOpenListener(), plugin);
     }
