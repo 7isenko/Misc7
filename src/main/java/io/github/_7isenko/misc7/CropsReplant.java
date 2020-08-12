@@ -6,6 +6,7 @@ import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -14,8 +15,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class CropsReplant implements Listener {
 
@@ -39,13 +38,20 @@ public class CropsReplant implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onCropBreak(CropBreakEvent event) {
-            Block crop = event.getBlock();
-            event.setDropItems(false);
-            ArrayList<ItemStack> drops = new ArrayList<>(crop.getDrops());
-            drops.get(drops.size() - 1).setAmount(drops.get(drops.size() - 1).getAmount() - 1);
-            for (ItemStack drop : drops) {
-                if (drop.getAmount() != 0)
+        Block crop = event.getBlock();
+        event.setDropItems(false);
+        ArrayList<ItemStack> drops = new ArrayList<>(crop.getDrops());
+        drops.get(drops.size() - 1).setAmount(drops.get(drops.size() - 1).getAmount() - 1);
+        for (ItemStack drop : drops) {
+            if (drop.getAmount() != 0)
                 crop.getWorld().dropItemNaturally(crop.getLocation(), drop);
-            }
         }
+    }
+
+
+    public static class CropBreakEvent extends BlockBreakEvent {
+        public CropBreakEvent(Block theBlock, Player player) {
+            super(theBlock, player);
+        }
+    }
 }
