@@ -13,8 +13,8 @@ public class Misc7 extends JavaPlugin {
         // Lily pads don't break your legs
         getServer().getPluginManager().registerEvents(new LilyFallListener(), plugin);
 
-        // You can easily open chests with sighs on it
-        getServer().getPluginManager().registerEvents(new SignChestOpenListener(), plugin);
+        // You can easily open chests with sighs or frames on it
+        getServer().getPluginManager().registerEvents(new ChestOpener(), plugin);
 
         // Right click on fully grown crop replants it
         getServer().getPluginManager().registerEvents(new CropsReplant(), plugin);
