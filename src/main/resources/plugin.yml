@@ -1,5 +1,15 @@
 name: Misc7
+description: Useful addons for better Minecraft experience
 version: "1.0"
 api-version: "1.16"
 author: 7isenko
+website: https://github.com/7isenko
 main: io.github._7isenko.misc7.Misc7
+default-permission: true
+permissions:
+  misc7.chestopener:
+    description: Open chests using signs and frames.
+  misc7.cropsreplant:
+    description: Replant crops by right click
+  misc7.lilyfall:
+    description: Lily pads don't break your legs

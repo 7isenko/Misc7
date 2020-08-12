@@ -14,11 +14,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 public class ChestOpener implements Listener {
+    private String permission = "misc7.chestopener";
 
     // WallSign and ItemFrame implement different Directional interfaces
 
     @EventHandler(ignoreCancelled = true)
     public void onSignInteract(PlayerInteractEvent event) {
+        if (!PermissionHelper.check(event.getPlayer(), permission)) return;
         if (event.getClickedBlock() != null && event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.getPlayer().isSneaking()) {
             Block block = event.getClickedBlock();
             Block attached = null;
@@ -35,6 +37,7 @@ public class ChestOpener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFrameInteract(PlayerInteractEntityEvent event) {
+        if (!PermissionHelper.check(event.getPlayer(), permission)) return;
         if (event.getRightClicked() instanceof ItemFrame && !event.getPlayer().isSneaking()) {
             ItemFrame frame = (ItemFrame) event.getRightClicked();
             Block attached = frame.getLocation().getBlock().getRelative(frame.getAttachedFace());

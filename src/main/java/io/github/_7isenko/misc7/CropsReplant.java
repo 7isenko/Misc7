@@ -17,9 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 
 public class CropsReplant implements Listener {
+    private String permission = "misc7.cropsreplant";
 
     @EventHandler(ignoreCancelled = true)
     public void onRightClick(PlayerInteractEvent event) {
+        if (!PermissionHelper.check(event.getPlayer(), permission)) return;
         if (event.getClickedBlock() == null && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
