@@ -1,6 +1,8 @@
 package io.github._7isenko.misc7;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Sign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -17,10 +19,15 @@ public class ChestOpener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSignInteract(PlayerInteractEvent event) {
-        Block block = event.getClickedBlock();
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.getPlayer().isSneaking() && checkSign(block)) {
-            WallSign sign = (WallSign) block.getState().getBlockData();
-            Block attached = block.getRelative(sign.getFacing().getOppositeFace());
+        if (event.getClickedBlock() != null && event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.getPlayer().isSneaking()) {
+            Block block = event.getClickedBlock();
+            Block attached = null;
+            if (block.getBlockData() instanceof WallSign) {
+                WallSign sign = (WallSign) block.getBlockData();
+                attached = block.getRelative(sign.getFacing().getOppositeFace());
+            } else if (block.getBlockData() instanceof Sign) {
+                attached = block.getRelative(BlockFace.DOWN);
+            }
             if (openHolderToPlayer(event.getPlayer(), attached))
                 event.setCancelled(true);
         }
@@ -37,18 +44,12 @@ public class ChestOpener implements Listener {
     }
 
     private boolean openHolderToPlayer(Player player, Block block) {
+        if (block == null) return false;
         if (block.getState() instanceof InventoryHolder) {
             InventoryHolder holder = (InventoryHolder) block.getState();
             player.openInventory(holder.getInventory());
             return true;
         }
         return false;
-    }
-
-    private boolean checkSign(Block block) {
-        if (block == null)
-            return false;
-        String type = block.getType().toString();
-        return type.contains("SIGN");
     }
 }
